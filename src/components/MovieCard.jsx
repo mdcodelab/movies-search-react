@@ -1,11 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMovie } from '../context';
+import { FaRegHeart } from "react-icons/fa";
 
 function MovieCard({ movie }) {
 
-  const favoriteClick = () => {
-    alert("clicked");
+  const {favorites, addFavorites, removeFavorites, isFavorite} = useMovie();
+  const favorite = isFavorite(movie.id);
+
+  const favoriteClick = (e) => {
+    e.preventDefault();
+    if(favorite) removeFavorites(movie.id);
+    else addFavorites(movie);
   }
+
+  
 
   return (
     <Wrapper className="movie-card">
@@ -15,7 +24,8 @@ function MovieCard({ movie }) {
           alt={movie.title} 
         />
         <div className="movie-overlay">
-          <button className="favorite-btn" onClick={favoriteClick}>⭐</button>
+          <button className={`favorite-btn ${favorite ? "active" : ""}`} 
+          onClick={favoriteClick}><FaRegHeart></FaRegHeart></button>
         </div>
       </div>
       <div className="movie-info">
@@ -44,17 +54,25 @@ img {
   left: 0.5rem;
 }
 
-.movie-overlay button{
+.movie-overlay .favorite-btn{
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.5rem;
   border-radius: 30%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .movie-info {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+}
+
+.favorite-btn.active {
+  color: red;
 }
 
 `;

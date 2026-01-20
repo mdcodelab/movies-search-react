@@ -1,12 +1,22 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { useMovie } from '../context';
+import MovieCard from '../components/MovieCard.jsx';
 
 function Favorites() {
-  return (
-    <Wrapper>
+    const {favorites} = useMovie();
+
+    (!favorites && (<Wrapper>
       <h2>No Favorite Movies Yet</h2>
-      <p>Add your favorite movies and they will be displayes here </p>
-    </Wrapper>
+      <p>Add your favorite movies and they will be displayed here </p>
+    </Wrapper>))
+
+
+  return (
+    
+    <div className="center favorites">
+    {favorites.map((movie) => <MovieCard movie={movie} key={movie.id}></MovieCard>)}
+    </div>
   )
 }
 
